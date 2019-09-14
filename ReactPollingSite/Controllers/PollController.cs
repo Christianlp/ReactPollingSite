@@ -25,7 +25,7 @@ namespace ReactPollingSite.Controllers
                 Poll poll = DatabaseController.GetPoll(id);
                 if (poll.id == new Guid())
                 {
-                    throw new ArgumentException(nameof(id), "The entered Poll ID does not exist");
+                    throw new ArgumentException(nameof(id), "The Poll requested does not exist");
                 }
                 return poll;
             }
@@ -42,6 +42,66 @@ namespace ReactPollingSite.Controllers
             else
             {
                 return new Poll();
+            }
+        }
+
+        [HttpGet("api/Question/{poll_id}")]
+        public Poll GetQuestions(string poll_id)
+        {
+            // Ensure that poll ID id a valid guid format and exists in the database
+            Guid id_filter;
+            if (Guid.TryParse(poll_id, out id_filter))
+            {
+                Poll poll = DatabaseController.GetPoll(poll_id);
+                if (poll.id == new Guid())
+                {
+                    throw new ArgumentException(nameof(poll_id), "The Poll requested does not exist");
+                }
+                return poll;
+            }
+            throw new ArgumentException(nameof(poll_id), "The Poll ID is not valid");
+        }
+
+        [HttpPost("api/Question")]
+        public List<Question> CreateQuestion(Question question, string poll_id)
+        {
+            if (DatabaseController.InsertNewQuestion(question, poll_id))
+            {
+                return DatabaseController.GetQuestions(question.id.ToString());
+            }
+            else
+            {
+                return new List<Question>();
+            }
+        }
+
+        [HttpGet("api/Option/{question_id}")]
+        public Poll GetOptions(string question_id)
+        {
+            // Ensure that poll ID id a valid guid format and exists in the database
+            Guid id_filter;
+            if (Guid.TryParse(question_id, out id_filter))
+            {
+                Poll poll = DatabaseController.GetPoll(question_id);
+                if (poll.id == new Guid())
+                {
+                    throw new ArgumentException(nameof(question_id), "The Question requested does not exist");
+                }
+                return poll;
+            }
+            throw new ArgumentException(nameof(question_id), "The Question ID is not valid");
+        }
+
+        [HttpPost]
+        public List<Option> CreateOption(Option option, string question_id)
+        {
+            if (DatabaseController.InsertNewOption(option, question_id))
+            {
+                return DatabaseController.GetOptions(option.id.ToString());
+            }
+            else
+            {
+                return new List<Option>();
             }
         }
 
