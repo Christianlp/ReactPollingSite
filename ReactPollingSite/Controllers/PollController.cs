@@ -18,13 +18,24 @@ namespace ReactPollingSite.Controllers
         [HttpGet("{id}")]
         public Poll GetPoll(string id)
         {
-            return DatabaseController.GetPoll(id);
+            // Ensure that poll ID id a valid guid format and exists in the database
+            Guid id_filter;
+            if (Guid.TryParse(id, out id_filter))
+            {
+                Poll poll = DatabaseController.GetPoll(id);
+                if (poll.id == new Guid())
+                {
+                    throw new ArgumentException(nameof(id), "The entered Poll ID does not exist");
+                }
+                return poll;
+            }
+            throw new ArgumentException(nameof(id), "The entered Poll ID is not valid");
         }
 
         [HttpPost]
         public Poll CreatePoll(Poll poll)
         {
-            if(DatabaseController.InsertNewPoll(poll))
+            if (DatabaseController.InsertNewPoll(poll))
             {
                 return DatabaseController.GetPoll(poll.id.ToString());
             }

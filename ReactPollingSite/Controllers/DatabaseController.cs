@@ -46,12 +46,15 @@ namespace ReactPollingSite.Controllers
 
             DatabaseController db = new DatabaseController();
             PollController.Poll Poll = new PollController.Poll();
-            Poll.id = db.GetSqlDatabaseGuid(reader, "id");
-            Poll.Name = db.GetSqlDatabaseString(reader, "Name");
-            Poll.Description = db.GetSqlDatabaseString(reader, "Description");
-            Poll.Creator = db.GetSqlDatabaseString(reader, "Creator");
-            Poll.CreateDT = db.GetSqlDatabaseDateTime(reader, "CreateDT");
-            Poll.UpdateDT = db.GetSqlDatabaseDateTime(reader, "UpdateDT");
+            if (reader.Read())
+            {
+                Poll.id = db.GetSqlDatabaseGuid(reader, "id");
+                Poll.Name = db.GetSqlDatabaseString(reader, "Name");
+                Poll.Description = db.GetSqlDatabaseString(reader, "Description");
+                Poll.Creator = db.GetSqlDatabaseString(reader, "Creator");
+                Poll.CreateDT = db.GetSqlDatabaseDateTime(reader, "CreateDT");
+                Poll.UpdateDT = db.GetSqlDatabaseDateTime(reader, "UpdateDT");
+            }
 
             connect.Close();
             db.Dispose();
