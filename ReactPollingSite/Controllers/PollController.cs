@@ -10,21 +10,28 @@ namespace ReactPollingSite.Controllers
     public class PollController : Controller
     {
         [HttpGet]
-        public IEnumerable<int> GetCreatedPolls()
+        public List<Poll> GetCreatedPolls()
         {
-            return new List<int>();
+            return DatabaseController.GetPolls();
         }
 
         [HttpGet("{id}")]
         public Poll GetPoll(string id)
         {
-            return new Poll();
+            return DatabaseController.GetPoll(id);
         }
 
         [HttpPost]
         public Poll CreatePoll(Poll poll)
         {
-            return poll;
+            if(DatabaseController.InsertNewPoll(poll))
+            {
+                return DatabaseController.GetPoll(poll.id.ToString());
+            }
+            else
+            {
+                return new Poll();
+            }
         }
 
         public class Poll
@@ -43,6 +50,14 @@ namespace ReactPollingSite.Controllers
             public Guid id { get; set; }
             public string Contents { get; set; }
             public int Order { get; set; }
+            public List<Option> Options { get; set; }
+        }
+
+        public class Option
+        {
+            public Guid id { get; set; }
+            public string Contents { get; set; }
+            public string Order { get; set; }
         }
     }
 }

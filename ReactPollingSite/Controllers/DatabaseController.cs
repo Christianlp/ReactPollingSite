@@ -8,17 +8,17 @@ namespace ReactPollingSite.Controllers
 {
     public class DatabaseController : Controller
     {
-        public List<PollController.Poll> GetPolls()
+        public static List<PollController.Poll> GetPolls()
         {
             return new List<PollController.Poll>();
         }
 
-        public PollController.Poll GetPoll(Guid id)
+        public static PollController.Poll GetPoll(string id)
         {
             return new PollController.Poll();
         }
 
-        public bool InsertNewPoll(PollController Poll)
+        public static bool InsertNewPoll(PollController.Poll Poll)
         {
             return true;
         }
