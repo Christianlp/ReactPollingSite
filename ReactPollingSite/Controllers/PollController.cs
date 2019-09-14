@@ -57,7 +57,7 @@ namespace ReactPollingSite.Controllers
         {
             public Guid id { get; set; }
             public string Contents { get; set; }
-            public string Order { get; set; }
+            public int Order { get; set; }
         }
     }
 }
