@@ -140,7 +140,7 @@ namespace ReactPollingSite.Controllers
         public static List<PollController.Option> GetOptions(string question_id)
         {
             SqlConnection connect = GetSqlDataConnection();
-            SqlCommand command = new SqlCommand("SELECT * FROM Options WHERE PollID = @question_id", connect);
+            SqlCommand command = new SqlCommand("SELECT * FROM Options WHERE QuestionID = @question_id", connect);
             command.Parameters.Add("@question_id", System.Data.SqlDbType.NChar);
             command.Parameters["@question_id"].Value = question_id;
             SqlDataReader reader = command.ExecuteReader();

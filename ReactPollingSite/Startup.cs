@@ -23,7 +23,7 @@ namespace ReactPollingSite
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            var ConnectionString = Configuration.GetConnectionString("DefaultConnection");
+            ConnectionString = Configuration.GetConnectionString("DefaultConnection");
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

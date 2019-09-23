@@ -9,7 +9,7 @@ namespace ReactPollingSite.Controllers
     [Route("api/[controller]")]
     public class PollController : Controller
     {
-        [HttpGet]
+        [HttpGet("/api/Polls")]
         public List<Poll> GetCreatedPolls()
         {
             return DatabaseController.GetPolls();
@@ -45,24 +45,20 @@ namespace ReactPollingSite.Controllers
             }
         }
 
-        [HttpGet("api/Question/{poll_id}")]
-        public Poll GetQuestions(string poll_id)
+        [HttpGet("/api/Questions/{poll_id}")]
+        public List<Question> GetQuestions(string poll_id)
         {
             // Ensure that poll ID id a valid guid format and exists in the database
             Guid id_filter;
             if (Guid.TryParse(poll_id, out id_filter))
             {
-                Poll poll = DatabaseController.GetPoll(poll_id);
-                if (poll.id == new Guid())
-                {
-                    throw new ArgumentException(nameof(poll_id), "The Poll requested does not exist");
-                }
-                return poll;
+                List<Question> questions = DatabaseController.GetQuestions(poll_id);
+                return questions;
             }
             throw new ArgumentException(nameof(poll_id), "The Poll ID is not valid");
         }
 
-        [HttpPost("api/Question")]
+        [HttpPost("/api/Question")]
         public List<Question> CreateQuestion(Question question, string poll_id)
         {
             if (DatabaseController.InsertNewQuestion(question, poll_id))
@@ -75,24 +71,20 @@ namespace ReactPollingSite.Controllers
             }
         }
 
-        [HttpGet("api/Option/{question_id}")]
-        public Poll GetOptions(string question_id)
+        [HttpGet("/api/Options/{question_id}")]
+        public List<Option> GetOptions(string question_id)
         {
             // Ensure that poll ID id a valid guid format and exists in the database
             Guid id_filter;
             if (Guid.TryParse(question_id, out id_filter))
             {
-                Poll poll = DatabaseController.GetPoll(question_id);
-                if (poll.id == new Guid())
-                {
-                    throw new ArgumentException(nameof(question_id), "The Question requested does not exist");
-                }
-                return poll;
+                List<Option> options = DatabaseController.GetOptions(question_id);
+                return options;
             }
             throw new ArgumentException(nameof(question_id), "The Question ID is not valid");
         }
 
-        [HttpPost]
+        [HttpPost("/api/Option")]
         public List<Option> CreateOption(Option option, string question_id)
         {
             if (DatabaseController.InsertNewOption(option, question_id))
@@ -111,7 +103,7 @@ namespace ReactPollingSite.Controllers
             public string Name { get; set; }
             public string Description { get; set; }
             public string Creator { get; set; }
-            public List<Question> Questions { get; set; }
+            //public List<Question> Questions { get; set; }
             public DateTime CreateDT { get; set; }
             public DateTime UpdateDT { get; set; }
         }
@@ -121,7 +113,7 @@ namespace ReactPollingSite.Controllers
             public Guid id { get; set; }
             public string Contents { get; set; }
             public int Order { get; set; }
-            public List<Option> Options { get; set; }
+            //public List<Option> Options { get; set; }
         }
 
         public class Option
