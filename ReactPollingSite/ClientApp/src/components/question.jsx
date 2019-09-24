@@ -1,8 +1,8 @@
 ﻿import React, { Component } from 'react';
-import Option from "./option"
 
 class Question extends Component {
     state = {
+        selectedOption: "",
         options: []
     }
 
@@ -12,6 +12,12 @@ class Question extends Component {
         this.state.id = props.id;
         this.state.poll_id = props.poll_id;
         this.state.text = props.text;
+    }
+
+    handleOptionChange = changeEvent => {
+        this.setState({
+            selectedOption: changeEvent.target.value
+        });
     }
 
     componentDidMount() {
@@ -31,8 +37,15 @@ class Question extends Component {
                         <div className="card card-body">
                             <h3>Question: {this.state.text}</h3>
                             {this.state.options.map(option =>
-                                <Option key={option.id} id={option.id} question_id={this.state.id} text={option.contents}></Option>
-                                )}
+                                <div key={option.id}>
+                                    <label>
+                                        <input className="mr-3" type="radio" value={option.id}
+                                            checked={this.state.selectedOption === option.id} 
+                                            onChange={this.handleOptionChange} />
+                                        {option.contents}
+                                    </label>
+                                </div>    
+                            )}
                         </div>
                     </div>
                 </div>

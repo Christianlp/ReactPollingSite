@@ -38,6 +38,7 @@ export class Poll extends Component {
                     {this.state.questions.map(question => <Question key={question.id} id={question.id} poll_id={this.state.id} text={question.contents}>
                     </Question>)
                     }
+                    <br/>
                     <button className="btn btn-default" type="submit">Save</button>
                 </form>
 
