@@ -15,9 +15,12 @@ class Question extends Component {
     }
 
     handleOptionChange = changeEvent => {
+        this.setState({ saving: true });
+        setTimeout(function () { this.setState({ saving: false }) }.bind(this), 1000);
         this.setState({
             selectedOption: changeEvent.target.value
         });
+
     }
 
     componentDidMount() {
@@ -29,13 +32,33 @@ class Question extends Component {
             }));
     }
 
+    showSavedState() {
+        console.log(this.state.saving);
+        if (this.state.saving !== undefined) {
+            let contents = this.state.saving
+                ? <p className="text-secondary"><em>Saving...</em></p>
+                : <p className="text-success">Saved!</p>;
+            return contents;
+        }
+        else {
+            return <p></p>
+        }
+    }
+
     render() {
         return (
             <div>
                 <div className="row">
                     <div className="col-12">
                         <div className="card card-body">
-                            <h3>Question: {this.state.text}</h3>
+                            <div className="row">
+                                <div className="col-10">
+                                    <h3>Question: {this.state.text}</h3>
+                                </div>
+                                <div className="col-2"> 
+                                    {this.showSavedState()}
+                                </div>
+                            </div>
                             {this.state.options.map(option =>
                                 <div key={option.id}>
                                     <label>
