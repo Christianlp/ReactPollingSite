@@ -103,7 +103,6 @@ namespace ReactPollingSite.Controllers
             public string Name { get; set; }
             public string Description { get; set; }
             public string Creator { get; set; }
-            //public List<Question> Questions { get; set; }
             public DateTime CreateDT { get; set; }
             public DateTime UpdateDT { get; set; }
         }
@@ -113,7 +112,6 @@ namespace ReactPollingSite.Controllers
             public Guid id { get; set; }
             public string Contents { get; set; }
             public int Order { get; set; }
-            //public List<Option> Options { get; set; }
         }
 
         public class Option
