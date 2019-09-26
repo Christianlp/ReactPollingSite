@@ -9,28 +9,44 @@ namespace ReactPollingSite.Controllers
     [Route("api/[controller]")]
     public class ResultsController : Controller
     {
-        [HttpGet("/api/Results/{question_id}")]
-        public List<VoteResult> GetQuestionResults(string question_id)
+        [HttpGet("/api/Results/{poll_id}")]
+        public List<QuestionResults> GetQuestionResults(string poll_id)
         {
-            List<PollController.Option> Options = DatabaseController.GetOptions(question_id);
-            List<VoteResult> Results = new List<VoteResult>();
+            List<PollController.Question> Questions = DatabaseController.GetQuestions(poll_id);
+            List<QuestionResults> Results = new List<QuestionResults>();
             Random rand = new Random();
-            foreach (PollController.Option option in Options)
+            foreach (PollController.Question question in Questions)
             {
-                VoteResult result = new VoteResult();
-                result.question_id = Guid.Parse(question_id);
-                result.option_id = option.id;
-                result.VoteCount = rand.Next(1000);
+                QuestionResults result = new QuestionResults();
+                result.question_id = question.id;
+                result.Content = question.Contents;
+                result.Options = new List<OptionResults>();
+                List<PollController.Option> Options = DatabaseController.GetOptions(question.id.ToString());
+                foreach (PollController.Option Option in Options)
+                {
+                    OptionResults OptionResult = new OptionResults();
+                    OptionResult.option_id = Option.id;
+                    OptionResult.Content = Option.Contents;
+                    OptionResult.VoteCount = rand.Next(1000);
+                    result.Options.Add(OptionResult);
+                }
                 Results.Add(result);
             }
             return Results;
         }
     }
 
-    public class VoteResult
+    public class QuestionResults
     {
         public Guid question_id { get; set; }
+        public string Content { get; set; }
+        public List<OptionResults> Options { get; set; }
+    }
+
+    public class OptionResults
+    {
         public Guid option_id { get; set; }
+        public string Content { get; set; }
         public int VoteCount { get; set; }
     }
 }
