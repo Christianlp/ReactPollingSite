@@ -17,7 +17,6 @@ export default class App extends Component {
                 <Route path='/polls' component={Polls} />
                 <Route path='/poll/:id' component={Poll} />
                 <Route path='/results/:id' component={Results} />
-                <Route path='/fetch-data' component={FetchData} />
             </Layout>
         );
     }
