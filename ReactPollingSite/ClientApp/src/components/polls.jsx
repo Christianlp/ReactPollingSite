@@ -24,6 +24,10 @@ export class Polls extends Component {
         return ("/poll/" + id);
     }
 
+    createResultsUrl = id => {
+        return ("/results/" + id)
+    }
+
     displayPolls(polls) {
         return (
             <div>
@@ -33,9 +37,18 @@ export class Polls extends Component {
                             <div className="card p-2">
                                 <h4>{poll.name}</h4>
                                 <p>{poll.description}</p>
-                                <Button tag={Link} color="primary" to={this.createPollUrl(poll.id)}>
-                                    Vote in Poll
-                                </Button>
+                                <div className="row">
+                                    <div className="col-8" style={{ float: 'left' }}>
+                                        <Button tag={Link} style={{ float: 'left' }} color="primary" to={this.createPollUrl(poll.id)}>
+                                            Vote in Poll
+                                        </Button>
+                                    </div>
+                                    <div className="col-4" style={{ float: 'right' }}>
+                                        <Button tag={Link} style={{ float: 'right' }} color="secondary" to={this.createResultsUrl(poll.id)}>
+                                            Results
+                                        </Button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     )}
