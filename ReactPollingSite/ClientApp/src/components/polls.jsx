@@ -25,7 +25,11 @@ export class Polls extends Component {
     }
 
     createResultsUrl = id => {
-        return ("/results/" + id)
+        return ("/results/" + id);
+    }
+
+    createNewPollUrl = () => {
+        return ("/create/");
     }
 
     displayPolls(polls) {
@@ -53,11 +57,11 @@ export class Polls extends Component {
                         </div>
                     )}
                 </div>
-                <br /><br />
+                <br /><br /><br /><br />
                 <div style={{ width: '15%', margin: '0px auto 30px auto' }}>
-                    <button
-                        className="btn btn-primary"
-                    >Create New Survey</button>
+                    <Button tag={Link} style={{ float: 'right' }} color="secondary" to={this.createNewPollUrl()}>
+                        Create New Poll
+                    </Button>
                 </div>
             </div>
         );
